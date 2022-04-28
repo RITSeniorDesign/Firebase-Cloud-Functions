@@ -4,6 +4,7 @@ import * as admin from "firebase-admin";
 const adminApp = admin.initializeApp();
 const adminAuth = adminApp.auth();
 
+// This function is an https endpoint that receives a UserObj and removes that User from firebase
 export const deleteUser = functions.https.onCall(async (data, context) => {
     if (!context.auth) return { status: 'error', code: 401, message: 'Not signed in' }
     const user = data.user as UserObj;
@@ -14,6 +15,7 @@ export const deleteUser = functions.https.onCall(async (data, context) => {
     return ({ deleted: true });
 });
 
+// This function is an https endpoint that receives an email and creates a new User with that email
 export const createUser = functions.https.onCall(async (data, context) => {
     if (!context.auth) return { error: true, message: 'Not signed in' }
 
@@ -31,6 +33,7 @@ export const createUser = functions.https.onCall(async (data, context) => {
     return { error: false, message: `User created with email: ${email}` };
 });
 
+// This number generates random numbers of the specified length
 export const UseRandomIDGen = (len: number): string => {
     let ID = "";
     for (let i = 1; i < len; i++) {
